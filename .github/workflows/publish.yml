@@ -1,0 +1,15 @@
+name: Node CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+        npm_token: ${{ secrets.NPM_TOKEN }}
+    - run: npm install
+    - run: npm run deploy --token "${{ secrets.NPM_TOKEN }}"
