@@ -1,6 +1,6 @@
 {
   "name": "use-binding",
-  "version": "v0.9.0",
+  "version": "v0.9.1",
   "license": "MIT",
   "peerDependencies": {
     "react": "^16.10.2",
@@ -13,7 +13,7 @@
   "homepage": "https://github.com/sbesselsen/use-binding",
   "repository": {
     "type": "git",
-    "url": "github:sbesselsen/use-binding"
+    "url": "git+https://github.com/sbesselsen/use-binding.git"
   },
   "scripts": {
     "build": "rimraf dist; rollup -c; rimraf \"dist/*.stories.d.ts\"",
@@ -30,6 +30,7 @@
   "files": [
     "dist"
   ],
+  "keywords": ["react","hooks","react-hooks"],
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -77,5 +78,8 @@
     "typescript": "^3.6.4"
   },
   "readme": "ERROR: No README data found!",
-  "_id": "use-binding@0.0.0"
+  "_id": "use-binding@0.9.0",
+  "bugs": {
+    "url": "https://github.com/sbesselsen/use-binding/issues"
+  }
 }
