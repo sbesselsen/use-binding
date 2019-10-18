@@ -8,12 +8,13 @@
   },
   "author": "Sebastiaan Besselsen <S.Besselsen@sdu.nl>",
   "scripts": {
-    "build": "rimraf dist; rollup -c",
+    "build": "rimraf dist; rollup -c; rimraf \"dist/*.stories.d.ts\"",
     "dev": "start-storybook -p 6006",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "tslint --project .",
-    "lint-fix": "tslint --project . --fix"
+    "lint-fix": "tslint --project . --fix",
+    "deploy": "npm install; npm run lint; npm run build; npm-deploy-git-tag"
   },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.3",
+    "@hutson/npm-deploy-git-tag": "^5.0.2",
     "@storybook/addon-a11y": "^5.2.3",
     "@storybook/addon-actions": "^5.2.3",
     "@storybook/addon-knobs": "^5.2.3",
