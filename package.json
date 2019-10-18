@@ -22,7 +22,8 @@
     "eject": "react-scripts eject",
     "lint": "tslint --project .",
     "lint-fix": "tslint --project . --fix",
-    "deploy": "npm run lint; npm run build; npm-deploy-git-tag --access public"
+    "prepublishOnly": "npm run lint; npm run build",
+    "deploy": "semantic-release"
   },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -52,7 +53,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.3",
-    "@hutson/npm-deploy-git-tag": "^5.0.2",
     "@storybook/addon-a11y": "^5.2.3",
     "@storybook/addon-actions": "^5.2.3",
     "@storybook/addon-knobs": "^5.2.3",

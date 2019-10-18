@@ -1,6 +1,9 @@
 name: Node CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
@@ -10,6 +13,7 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '11.x'
-        npm_token: ${{ secrets.NPM_TOKEN }}
     - run: npm install
-    - run: npm run deploy --token "${{ secrets.NPM_TOKEN }}"
+    - run: npm run deploy
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
