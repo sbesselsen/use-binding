@@ -1,5 +1,5 @@
 # useBinding
-One-line controlled and uncontrolled property binding for React
+*One-line controlled and uncontrolled property binding for React*
 
 - [Installation](#installation)
 - [Use case](#use-case)
@@ -30,25 +30,23 @@ const [myValue, setMyValue] = useBinding(
     defaultValue,
     value,
     onChange,
-    fallbackValue
+    fallbackValue /* optional */
 );
 ```
 
-Now use `myValue` as your property value, and use `setMyValue` whenever you want to change it.
+Now use `myValue` as your property value, and use `setMyValue` whenever you want to change it. Everything works as expected. That means:
 
-If the consumer of your component passes a `value`, that value will always be used.
-
-If the consumer of your component passes a `defaultValue`, then `useBinding` will use `useState` internally to keep track of the current value. That's where `useBinding` makes your life a lot easier.
-
-If both `defaultValue` and `value` are empty, then the `fallbackValue` will be used. The `fallbackValue` is optional: if you don't provide it either, then `myValue` will be null.
-
-If the consumer of your component passed an `onChange` handler, that handler will be called when using `setMyValue`.
+* If the consumer of your component passes a `value`, that value will be used.
+* If the consumer of your component passes a `defaultValue`, then `useBinding` will use `useState` internally to keep track of the current value.
+* If both `defaultValue` and `value` are empty, then the `fallbackValue` will be used. The `fallbackValue` is optional: if you don't provide it either, then `myValue` will be null.
+* If the consumer of your component passed an `onChange` handler, that handler will be called when using `setMyValue`.
 
 ## Example
-Consider the `Input` example above. This is how you might type it:
+Consider the `Input` example above. You can use `useBinding` like this:
 
 ```tsx
-import React, { useCallback } from 'react';
+import React from 'react';
+import { useBinding } from 'use-binding';
 
 interface IInputProps {
     defaultValue?: string
@@ -56,26 +54,16 @@ interface IInputProps {
     onChange?: (newValue: string) => void
 }
 
-const CustomInput: React.FC<IInputProps> = () => { ... }
-```
-
-Now you can use `useBinding` like this:
-
-```tsx
-import { useBinding } from 'use-binding';
-
 const CustomInput: React.FC<IInputProps> = ({ defaultValue, value, onChange }) => {
     const [inputValue, setInputValue] = useBinding(defaultValue, value, onChange, '');
-    const onChangeCallback = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
-    }, [setInputValue]);
+
     return (
-        <input type="text" value={inputValue} onChange={onChangeCallback} />
+        <input type="text" value={inputValue} onChange={(e: ChangeEvent<HTMLInputElement>) => { setInputValue(e.target.value) })} />
     );
 };
 ```
 
-Now consumers of your `CustomInput` component can do any of these:
+This will give consumers of your `CustomInput` component a lot of options:
 
 ```tsx
 // Controlled:
@@ -90,7 +78,7 @@ const [value, setValue] = useState('');
 ```
 
 ## Typescript
-`useBinding` supports Typescript and contains generic typings.
+`useBinding` supports Typescript and contains generic typings. Of course you can also use it in plain old Javascript.
 
 ## Developer
 
