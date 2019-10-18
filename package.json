@@ -1,12 +1,20 @@
 {
   "name": "use-binding",
-  "version": "0.0.0",
+  "version": "v0.9.0",
   "license": "MIT",
   "peerDependencies": {
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },
-  "author": "Sebastiaan Besselsen <S.Besselsen@sdu.nl>",
+  "author": {
+    "name": "Sebastiaan Besselsen",
+    "email": "S.Besselsen@sdu.nl"
+  },
+  "homepage": "https://github.com/sbesselsen/use-binding",
+  "repository": {
+    "type": "git",
+    "url": "github:sbesselsen/use-binding"
+  },
   "scripts": {
     "build": "rimraf dist; rollup -c; rimraf \"dist/*.stories.d.ts\"",
     "dev": "start-storybook -p 6006",
@@ -68,5 +76,6 @@
     "tslint-react": "^4.1.0",
     "typescript": "^3.6.4"
   },
-  "dependencies": {}
+  "readme": "ERROR: No README data found!",
+  "_id": "use-binding@0.0.0"
 }
