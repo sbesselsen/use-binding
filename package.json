@@ -10,10 +10,10 @@
     "name": "Sebastiaan Besselsen",
     "email": "S.Besselsen@sdu.nl"
   },
-  "homepage": "https://github.com/sbesselsen/use-binding",
+  "homepage": "https://github.com/elseu/use-binding",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sbesselsen/use-binding.git"
+    "url": "git+https://github.com/elseu/use-binding.git"
   },
   "scripts": {
     "build": "rimraf dist; rollup -c; rimraf \"dist/*.stories.d.ts\"",
@@ -85,6 +85,6 @@
   "readme": "ERROR: No README data found!",
   "_id": "use-binding@0.9.2",
   "bugs": {
-    "url": "https://github.com/sbesselsen/use-binding/issues"
+    "url": "https://github.com/elseu/use-binding/issues"
   }
 }
