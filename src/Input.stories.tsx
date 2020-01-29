@@ -8,6 +8,7 @@ import { useBinding } from './index';
 const controlledStories = storiesOf('Input|Controlled', module);
 const uncontrolledStories = storiesOf('Input|Uncontrolled', module);
 const fallbackStories = storiesOf('Input|Fallback', module);
+const mutatorStories = storiesOf('Input|Mutator', module);
 
 interface IInputProps {
     defaultValue?: string;
@@ -82,3 +83,43 @@ fallbackStories.add('Fallback value', () => {
         </React.Fragment>
     );
  });
+
+interface IMutatorExampleProps {
+    defaultValue?: number;
+    value?: number;
+    onChange?: (newValue: number) => void;
+}
+
+const MutatorExample: React.FC<IMutatorExampleProps> = ({ defaultValue, value, onChange }) => {
+    const [counter, setCounter] = useBinding(defaultValue, value, onChange, 0);
+    const onClick = useCallback(() => {
+        for (let i = 0; i < 10; i++) {
+            setCounter((x) => x + 1);
+        }
+    }, [setCounter]);
+    return (
+    <React.Fragment>
+        {counter} <button onClick={onClick}>Increment by 10</button>
+    </React.Fragment>
+    );
+};
+
+mutatorStories.add('Mutator function', () => {
+    const [counter, setCounter] = useState(0);
+    const controlled = boolean('Controlled', false);
+    const setCounterWithLogging = useCallback((x: number) => {
+        onChangeAction(x);
+        if (controlled) {
+            setCounter(x);
+        }
+    }, [setCounter, controlled]);
+    return (
+        <React.Fragment>
+            <MutatorExample
+                defaultValue={0}
+                value={controlled ? counter : undefined}
+                onChange={setCounterWithLogging}
+            />
+        </React.Fragment>
+    );
+});
