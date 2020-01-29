@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { Dispatch, useCallback, useRef, useState } from 'react';
 
+type SetBindingStateAction<S, I> = S | ((prevState: I) => S);
 type ChangeHandler<T> = (newValue: T) => void;
+type Setter<T, I = T> = Dispatch<SetBindingStateAction<T, I>>;
 
 /**
  * Return a [value, setValue] pair for a binding.
@@ -17,7 +19,7 @@ export function useBinding<T>(
     value: T | undefined | null,
     onChange: ChangeHandler<T> | undefined | null,
     fallbackValue: T,
-): [T, ChangeHandler<T>];
+): [T, Setter<T>];
 
 /**
  * Return a [value, setValue] pair for a binding.
@@ -30,7 +32,7 @@ export function useBinding<T>(
     defaultValue: T,
     value: T | undefined | null,
     onChange: ChangeHandler<T> | undefined | null,
-): [T, ChangeHandler<T>];
+): [T, Setter<T>];
 
 /**
  * Return a [value, setValue] pair for a binding.
@@ -43,7 +45,7 @@ export function useBinding<T>(
     defaultValue: T | undefined | null,
     value: T,
     onChange: ChangeHandler<T> | undefined | null,
-): [T, ChangeHandler<T>];
+): [T, Setter<T>];
 
 /**
  * Return a [value, setValue] pair for a binding.
@@ -56,14 +58,14 @@ export function useBinding<T>(
     defaultValue: T | undefined | null,
     value: T | undefined | null,
     onChange: ChangeHandler<T> | undefined | null,
-): [T | null, ChangeHandler<T>];
+): [T | null, Setter<T, T | null>];
 
 export function useBinding<T>(
     defaultValue: T | undefined | null,
     value: T | undefined | null,
     onChange: ChangeHandler<T> | undefined | null,
     fallbackValue?: T,
-): [T | null, ChangeHandler<T>] {
+): [T | null, Setter<T, T | null>] {
     let hasControlledValue = true;
     let inputValue: T | null = null;
     if (isNotEmpty(value)) {
@@ -76,16 +78,19 @@ export function useBinding<T>(
     }
     const [uncontrolledValue, setUncontrolledValue] = useState(inputValue);
     const changeHandler = onChange || noop;
-    if (hasControlledValue) {
-        return [inputValue, changeHandler];
-    }
-    return [
-        uncontrolledValue,
-        (newValue: T) => {
-            changeHandler(newValue);
-            setUncontrolledValue(newValue);
-        },
-    ];
+    const currentValueRef = useRef<T | null>(null);
+    currentValueRef.current = hasControlledValue ? inputValue : uncontrolledValue;
+    const setter = useCallback((newValue: SetBindingStateAction<T, T | null>) => {
+        const evaluatedNewValue = typeof newValue === 'function'
+        ? (newValue as ((prevState: T | null) => T))(currentValueRef.current)
+        : newValue;
+        currentValueRef.current = evaluatedNewValue;
+        changeHandler(evaluatedNewValue);
+        if (!hasControlledValue) {
+            setUncontrolledValue(evaluatedNewValue);
+        }
+    }, [currentValueRef, changeHandler, hasControlledValue]);
+    return [currentValueRef.current, setter];
 }
 
 function noop<T>(_: T) {
