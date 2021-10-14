@@ -9,6 +9,7 @@ const controlledStories = storiesOf('Input|Controlled', module);
 const uncontrolledStories = storiesOf('Input|Uncontrolled', module);
 const fallbackStories = storiesOf('Input|Fallback', module);
 const mutatorStories = storiesOf('Input|Mutator', module);
+const testStories = storiesOf('Test', module);
 
 interface IInputProps {
     defaultValue?: string;
@@ -123,3 +124,35 @@ mutatorStories.add('Mutator function', () => {
         </React.Fragment>
     );
 });
+
+
+interface IUseBindingExample {
+    controlledDefaultValue?: Date;
+    controlledValue?: Date;
+    onChange?: (date?: Date) => void;
+  }
+
+  const TestComponent = ({
+    controlledDefaultValue,
+    controlledValue,
+    onChange
+  }: IUseBindingExample) => {
+    const [selectedDate, setSelectedDate] = useBinding<Date | undefined>(
+      controlledDefaultValue,
+      controlledValue,
+      onChange,
+      undefined
+    );
+    return (
+      <div className="use-binding">
+        <p>Value: {selectedDate ? selectedDate.toISOString() : undefined}</p>
+        <button onClick={() => setSelectedDate(new Date(2020, 1, 1))}>
+          Change date
+        </button>
+      </div>
+    );
+  };
+
+  testStories.add('Test', () => {
+      return <TestComponent />;
+  });
