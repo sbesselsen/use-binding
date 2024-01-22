@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1beta1
+kind: Component
+metadata:
+  name: use-binding
+  description: "One-line controlled and uncontrolled property binding for React"
+  annotations:
+    github.com/project-slug: elseu/use-binding
+    backstage.io/source-location: url:https://github.com/elseu/use-binding/
+  tags:
+    - typescript
+spec:
+  type: library
+  owner: team-content-view
+  lifecycle: production
